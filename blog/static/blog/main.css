@@ -82,3 +82,19 @@ body {
   .account-heading {
     font-size: 2.5rem;
   }
+.stylish-color-dark {
+    background-color: #3e4551 !important;
+}
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+.footer-color{
+  overflow: hidden;
+  color: rgba(255,255,255,0.6);
+  background-color: rgba(0,0,0,0.2);
+}
+.footer-bg-color{
+
+  background-color: #3e4551;
+  color: #fff
+}
