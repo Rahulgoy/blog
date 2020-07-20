@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html style="position: relative; min-height: 100%;">
 <head>
 
 
@@ -23,7 +23,7 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
           <div class="container">
-            <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">Blog</a>
+            <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">News Blog</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -61,10 +61,10 @@
           </div>
           <div class="col-md-4">
             <div class="content-section">
-              <h3>Our Sidebar</h3>
+              <h3>Ouick Links</h3>
               <p class='text-muted'>You can put any information here you'd like.
                 <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Latest Posts</li>
+                  <li class="list-group-item list-group-item-light">Official Website</li>
                   <li class="list-group-item list-group-item-light">Announcements</li>
                   <li class="list-group-item list-group-item-light">Calendars</li>
                   <li class="list-group-item list-group-item-light">etc</li>
@@ -75,7 +75,7 @@
         </div>
       </main>
             <!-- Footer -->
-      <footer class="page-footer font-small footer-bg-color pt-4 " style="background-color: #3e4551">
+      <footer class="footer-fix font-small footer-bg-color pt-4 " style="background-color: #3e4551; bottom: 0;position: absolute;width:100%">
 
         <!-- Footer Links -->
         <div class="container text-center text-md-left">
@@ -103,8 +103,6 @@
         </div>
         <!-- Footer Links -->
 
-        <hr>
-
         <!-- Call to action -->
         <ul class="list-unstyled list-inline text-center py-2">
           <li class="list-inline-item">
@@ -118,16 +116,14 @@
 
         
 
-        <!-- Copyright -->
+        
         <div class="footer-copyright text-center py-3 footer-color" style="background-color: rgba(0,0,0,0.2); color:#fff">© 2020 Copyright:
           <a href="https://www.linkedin.com/in/rahulgoy/"> Rahul Goyal</a>
         </div>
-        <!-- Copyright -->
+        
 
       </footer>
-      <!-- Footer -->
-          
-      <!-- Footer -->
+      
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

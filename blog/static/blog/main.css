@@ -1,3 +1,7 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
     background: #fafafa;
     color: #333333;
@@ -97,4 +101,11 @@ body {
 
   background-color: #3e4551;
   color: #fff
+}
+.footer-fix {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top : 20vh;
 }
