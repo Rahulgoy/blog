@@ -15,8 +15,13 @@
                 {% endfor %}
               {% endif %}
             </div>
-            <h2><a class="article-title" href="{%url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
+            <div>
+              <h2><a class="article-title" href="{%url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+              <p class="article-content">{{ post.content }}</p>
+              {% if post.image %}
+                <img class="img-responsive imgset" src="{{ post.image.url }}" style="height:350px; width: 500px; max-width: 100%; height: auto;"/>
+              {% endif %}
+            </div>
           </div>
         </article>
     {% endfor %}
