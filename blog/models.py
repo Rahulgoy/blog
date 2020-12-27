@@ -13,7 +13,7 @@ class Post(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     likes = models.ManyToManyField(User, related_name='likes')
 
-    @property
+    
     def total_likes(self):
         return self.likes.count()
     def __str__(self):

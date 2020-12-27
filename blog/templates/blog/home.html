@@ -22,10 +22,12 @@
               {% if post.image %}
                 <img class="img-responsive imgset" src="{{ post.image.url }}" style="height:350px; width: 500px; max-width: 100%; height: auto;"/>
               {% endif %}
-
-              <input type="button" class="like" name="{{ post.id }}" value="Like" />
-              <p>count : {{ post.total_likes }}</p>
-
+              
+              <form action="{% url 'likes' post.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+                
+              </form> 
 
 
             </div>
@@ -52,22 +54,5 @@
         {% endif %}
     {% endif %}
 
-    <script>
-      $('.like').click(function(){
-        var pk = $(this).attr('name');
-        $.ajax({
-                 type: "POST",
-                 url: "{% url 'like_button' %}",
-                 data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                 dataType: "json",
-                 success: function(response) {
-                        alert('Company likes count is now ' + response.count_likes);
-                  },
-                 error: function(rs, e) {
-                        alert('Something went wrong.'); 
-                 }
-            });
-          })
-      </script>
     </html>
 {% endblock content %}
