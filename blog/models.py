@@ -11,7 +11,11 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
+    likes = models.ManyToManyField(User, related_name='likes')
 
+    
+    def total_likes(self):
+        return self.likes.count()
     def __str__(self):
         return self.title
 

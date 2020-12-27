@@ -24,8 +24,22 @@
             </div>
             <h2 class="article-title">{{ object.title }}</h2>
             <p class="article-content">{{ object.content }}</p>
-            <img class="img-responsive" src="{{ object.image.url }}" style="height:250px; width: 500px; max-width: 100%; height: auto;"/>
-            
+            {% if object.image %}
+              <img class="img-responsive" src="{{ object.image.url }}" style="height:250px; width: 500px; max-width: 100%; height: auto;"/>
+            {% endif %}
+
+            <form action="{% url 'likes' post.pk %}" method="POST">
+              {% csrf_token %}
+              {% if post_is_liked %}
+              <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Unike</button>
+              {% else %}
+              <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+              {% endif %}
+              {{ total_likes }}-Likes
+            </form> 
+
+
+
           </div>
         </article>
     

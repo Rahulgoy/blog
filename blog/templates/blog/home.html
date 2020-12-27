@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+<html>
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
@@ -21,6 +22,14 @@
               {% if post.image %}
                 <img class="img-responsive imgset" src="{{ post.image.url }}" style="height:350px; width: 500px; max-width: 100%; height: auto;"/>
               {% endif %}
+              
+              <form action="{% url 'likes' post.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+                
+              </form> 
+
+
             </div>
           </div>
         </article>
@@ -44,4 +53,6 @@
           <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
     {% endif %}
+
+    </html>
 {% endblock content %}

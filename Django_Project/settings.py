@@ -148,7 +148,3 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-<<<<<<< HEAD
-
-=======
->>>>>>> 65f8a3ffab249dbdb05ae79e029d9cb477a06111
