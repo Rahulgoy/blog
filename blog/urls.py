@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView,like_button
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -12,4 +12,6 @@ urlpatterns = [
     path('post/<int:pk>/update', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('about/', views.about, name='blog-about'),
+    path('^like/$', views.like_button, name='like_button'),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,46 @@
+like
+
+views.py
+def like_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = POST.objects.get(id = post_id)
+
+        if user in post_obj.liked.all():
+            post_obj.liked.remove(user)
+        else:
+            post_obj.liked.add(user)
+
+        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+
+        like.save()
+    return redirect('blog-home')
+
+
+admin.py
+from .models import Post,Like
+admin.site.register(Like)
+
+
+urls.py
+path('like/', like_post, name='like-post'),
+
+
+home.html
+<form action="{% url 'blog-home'%}" method='POST' class="ui form">
+                {% csrf_token %}
+                <input type='hidden' name='post_id' value="{{ post.id }}">
+                {% if user not in post.liked.all %}
+                  <button class="ui button positive" type='submit'>Like</button>
+                {% else%}
+                <button class="ui button negative" type='submit'>Unlike</button>
+                {% endif %}
+              </form>
+              <strong>{{ post.liked.all.count }} Likes</strong>

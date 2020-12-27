@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+<html>
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
@@ -21,6 +22,12 @@
               {% if post.image %}
                 <img class="img-responsive imgset" src="{{ post.image.url }}" style="height:350px; width: 500px; max-width: 100%; height: auto;"/>
               {% endif %}
+
+              <input type="button" class="like" name="{{ post.id }}" value="Like" />
+              <p>count : {{ post.total_likes }}</p>
+
+
+
             </div>
           </div>
         </article>
@@ -44,4 +51,23 @@
           <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
     {% endif %}
+
+    <script>
+      $('.like').click(function(){
+        var pk = $(this).attr('name');
+        $.ajax({
+                 type: "POST",
+                 url: "{% url 'like_button' %}",
+                 data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                 dataType: "json",
+                 success: function(response) {
+                        alert('Company likes count is now ' + response.count_likes);
+                  },
+                 error: function(rs, e) {
+                        alert('Something went wrong.'); 
+                 }
+            });
+          })
+      </script>
+    </html>
 {% endblock content %}
