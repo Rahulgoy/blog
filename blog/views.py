@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from .models import Post, BlogComment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .forms import NewCommentForm
+
 def home(request):
     context = {
         'posts': Post.objects.all()
@@ -45,15 +47,26 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-
         data = get_object_or_404(Post, id=self.kwargs['pk'])
         liked=False
         if data.likes.filter(id=self.request.user.id).exists():
             liked=True
+        comments_connected = BlogComment.objects.filter(blogpost_connected=self.get_object()).order_by('-date_posted')
+        context['comments'] = comments_connected
+        if self.request.user.is_authenticated:
+            context['comment_form'] = NewCommentForm(instance=self.request.user)
         total_likes = data.total_likes()
         context["total_likes"] = total_likes
         context["post_is_liked"] = liked
         return context
+
+    def post(self, request, *args, **kwargs):
+        new_comment = BlogComment(content=request.POST.get('content'),
+                                  author=self.request.user,
+                                  blogpost_connected=self.get_object())
+        new_comment.save()
+        return self.get(self, request, *args, **kwargs)
+
   
 class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
@@ -98,46 +111,3 @@ def likeview(request, pk):
         post.likes.add(request.user)
 
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
-
-# def like_post(request):
-# # posts = get_object_or_404(Post, id=request.POST.get('post_id'))
-#     posts = get_object_or_404(post, id=request.POST.get('post_id'))
-#     is_liked = False
-#     if posts.likes.filter(id=request.user.id).exists():
-#         posts.likes.remove(request.user)
-#         is_liked = False
-#     else:
-#         posts.likes.add(request.user)
-#         is_liked = True
-
-#     return render(request, 'blog/home.html')
-
-
-def like_button(request):
-    if request.method == 'POST':
-        user = request.user
-        id = request.POST.get('pk', None)
-        article = get_object_or_404(Post, pk=id)
-
-        if article.likes.filter(id=user.id).exists():
-            article.likes.remove(user)
-        else:
-            article.likes.add(user)
-
-    context = {'likes_count': article.total_likes}
-    return HttpResponse(json.dumps(context), content_type='application/json')
-# class BlogPostDetailView(DetailView):
-#     model = Post
-#     # template_name = MainApp/BlogPost_detail.html
-#     # context_object_name = 'object'
-
-#     def get_context_data(self, **kwargs):
-#         data = super().get_context_data(**kwargs)
-
-#         likes_connected = get_object_or_404(Post, id=self.kwargs['pk'])
-#         liked = False
-#         if likes_connected.likes.filter(id=self.request.user.id).exists():
-#             liked = True
-#         data['number_of_likes'] = likes_connected.number_of_likes()
-#         data['post_is_liked'] = liked
-#         return data
