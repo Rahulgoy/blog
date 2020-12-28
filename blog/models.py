@@ -13,7 +13,10 @@ class Post(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     likes = models.ManyToManyField(User, related_name='likes')
 
-    
+    @property
+    def number_of_comments(self):
+        return BlogComment.objects.filter(blogpost_connected=self).count()
+
     def total_likes(self):
         return self.likes.count()
     def __str__(self):
@@ -23,4 +26,11 @@ class Post(models.Model):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
 
-
+class BlogComment(models.Model):
+    blogpost_connected = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(blank=True)
+    date_posted = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return str(self.author) + ',' + self.blogpost_connected.title[:40]

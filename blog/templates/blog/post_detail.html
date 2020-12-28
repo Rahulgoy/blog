@@ -1,6 +1,18 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    
+<html>
+  <style>
+    .form-group label{
+      
+      display: none;
+    }
+    #id_content{
+      width:25vw;
+      height:5vh;
+      
+    }
+  </style>
+
         <article class="media content-section">
           <img class="rounded-circle article-img" src = "{{ object.author.profile.image.url }}">
           <div class="media-body">
@@ -27,7 +39,7 @@
             {% if object.image %}
               <img class="img-responsive" src="{{ object.image.url }}" style="height:250px; width: 500px; max-width: 100%; height: auto;"/>
             {% endif %}
-
+            <br>
             <form action="{% url 'likes' post.pk %}" method="POST">
               {% csrf_token %}
               {% if post_is_liked %}
@@ -37,10 +49,50 @@
               {% endif %}
               {{ total_likes }}-Likes
             </form> 
+                <br>
+            <!-- COMMENTS  -->
+              
+              <div id="comments_section">
+
+                {% if user.is_authenticated %}
+                <form method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    {{ comment_form }}
+                    <button class="btn btn-info" type="submit">Add comment <i class="fas fa-comments"></i></button>
+                  </div>
+                </form>
+                {% else %}
+                <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
+                {% endif %}
+
+                {% if comments %}
+                <strong class="text-secondary">{{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}</strong>
+                <hr>
+                <ul>
+                  {% for comment in comments %}
+                  <li>           
+                  <div>
+                      <span>
+                        <strong class="text-info">{{ comment.author }} </strong>
+                        <small class="text-muted">{{ comment.date_posted }}</small>
+                      </span>
+                      <p>
+                        {{ comment.content|safe }}
+                      </p>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% else %}
+                  <strong class="text-secondary">No comments yet...</strong>
+                {% endif %}
+
+              </div>
 
 
 
           </div>
         </article>
-    
+        </html>
 {% endblock content %}
