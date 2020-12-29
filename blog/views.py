@@ -67,7 +67,23 @@ class PostDetailView(DetailView):
         new_comment.save()
         return self.get(self, request, *args, **kwargs)
 
-  
+class PostLikeList(DetailView):
+    model = Post
+    template_name = 'blog/post_likes.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = get_object_or_404(Post, id=self.kwargs['pk'])
+        post_likes = posts.likes.all()
+        context = {'post_likes': post_likes}
+        return context
+
+
+
+
+
+
+
 class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
     fields = ['title', 'content', 'image']
@@ -111,3 +127,14 @@ def likeview(request, pk):
         post.likes.add(request.user)
 
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+
+
+
+# def post_likes(request, pk):
+#     posts = get_object_or_404(Post, pk=pk)
+#     post_likes = posts.likes.all()
+#     data = Post.objects.all().filter(pk=pk)
+#     context = {'post_likes': post_likes,
+#                 'post': data,
+#                 }
+#     return render(request, 'blog/post_likes.html', context)

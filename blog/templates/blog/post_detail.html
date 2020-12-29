@@ -20,13 +20,6 @@
               <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
               <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
 
-              {% if messages %}
-                {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }}">
-                      {{ message }}
-                  </div>
-                {% endfor %}
-              {% endif %}
               {% if object.author == user %}
                   <div>
                     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
@@ -47,7 +40,7 @@
               {% else %}
               <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
               {% endif %}
-              {{ total_likes }}-Likes
+              <a href="{% url 'post-likes' post.id %}">{{ total_likes }}-Likes</a>
             </form> 
                 <br>
             <!-- COMMENTS  -->
