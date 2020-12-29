@@ -16,13 +16,10 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Profile Info</legend>
-                {% if request.user.is_authenticated %}
+                
                 {{ u_form|crispy }}
                 {{ p_form|crispy }}
-                {% else %}
-                {{ p_form|crispy }}
-                {% endif %}
-            </fieldset>
+                </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Update</button>
             </div>
