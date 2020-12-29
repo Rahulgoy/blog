@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'Django_Project',
+    'friend',
     'users.apps.UsersConfig',
     'blog.apps.BlogConfig',
     'crispy_forms',
